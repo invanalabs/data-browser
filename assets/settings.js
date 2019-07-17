@@ -28,6 +28,8 @@ function update_settings() {
 
 
 $(document).ready(function () {
+    $('body').show();
+
     populate_settings_data();
     $("#search-settings-form").submit(function (e) {
         e.preventDefault();

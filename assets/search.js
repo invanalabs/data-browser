@@ -195,9 +195,9 @@ function perform_search(query) {
 }
 
 $(document).ready(function () {
+    $('body').show();
 
     var settings_config = get_settings_config();
-    $('body').show();
     if (settings_config) {
         var url = new URL(location.href);
         var query = url.searchParams.get("q");
