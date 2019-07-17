@@ -73,5 +73,9 @@ a {
 
 .selectedResultCard {
     background: #f5f4f4 !important;
+}
 
+#sidebar{
+        width: 160px;
+    padding: 10px;
 }
