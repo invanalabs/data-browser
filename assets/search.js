@@ -69,9 +69,12 @@ function get_settings_config() {
 }
 
 function show_single_data(data) {
-    $("#HitDetail").html("<pre>" + JSON.stringify(data, null, 2) + "</pre>")
+    $("#HitDetail").html("<div id='HitDetailContainer'><pre>" + JSON.stringify(data, null, 2) + "</pre></div>")
+    // highlight the result entry.
 
-};
+    $(".result-item").removeClass("selectedResultCard");
+    $("#"+ data._id).addClass("selectedResultCard");
+}
 
 function render_result_item(hit, settings_config) {
     // show_fields
@@ -97,7 +100,7 @@ function render_result_item(hit, settings_config) {
     result_card_data[settings_config.subheading_field] = get_data(settings_config.subheading_field);
     result_card_data[settings_config.summary_field] = get_data(settings_config.summary_field);
     result_card_data["id"] = hit._id;
-    var result_card_html = "<div class='result-item'>" +
+    var result_card_html = "<div class='result-item' id='"+ hit._id+"'>" +
         "<h3 class='mb-1'><a>" + result_card_data[settings_config.heading_field] + "</a></h3>";
 
     if (result_card_data[settings_config.subheading_field]) {
@@ -158,6 +161,9 @@ function render_result(result, keyword, search_url, settings_config, page_num) {
 };
 
 function search(keyword, page_num) {
+
+    // remove the selected data on the right side.
+    $("#HitDetail").html("");
     var settings_config = get_settings_config();
 
     var search_suffixes = "";

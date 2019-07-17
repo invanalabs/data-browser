@@ -28,7 +28,8 @@ body, .form-control, button {
 }
 
 .result-item {
-    margin-bottom: 20px;
+margin-bottom: 0;
+    padding: 5px;
     cursor: pointer;
 }
 
@@ -63,4 +64,14 @@ a {
     color: #fff !important;
     background-color: #328039;
     border-color: #328039;
+}
+
+.HitDetailContainer {
+    border: 1px solid #efefef;
+    padding: 10px;
+}
+
+.selectedResultCard {
+    background: #f5f4f4 !important;
+
 }
