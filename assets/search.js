@@ -161,6 +161,11 @@ function search(keyword, page_num) {
 }
 
 
+function perform_search(query) {
+    document.getElementById("search-keyword").value = query
+    search(query, 1);
+}
+
 $(document).ready(function () {
 
     var settings_config = get_settings_config();
@@ -169,10 +174,12 @@ $(document).ready(function () {
         $("#resultVersionPage").show();
         $("#noSettingsVersionPage").hide();
 
-        search(null, 1); // default null search to show the data we have in the system.
+
+        var url = new URL(location.href);
+        perform_search(url.searchParams.get("q"), 1);
         $("#search-form").submit(function (e) {
-            e.preventDefault();
-            search(document.getElementById("search-keyword").value, 1);
+            // e.preventDefault();
+            // search(document.getElementById("search-keyword").value, 1);
         });
 
 
