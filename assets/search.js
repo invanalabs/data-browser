@@ -73,7 +73,7 @@ function show_single_data(data) {
     // highlight the result entry.
 
     $(".result-item").removeClass("selectedResultCard");
-    $("#"+ data._id).addClass("selectedResultCard");
+    $("#" + data._id).addClass("selectedResultCard");
 }
 
 function render_result_item(hit, settings_config) {
@@ -87,7 +87,9 @@ function render_result_item(hit, settings_config) {
                 return actually_data[field];
             } else if (field_splitted.length === 2) {
                 return actually_data[field_splitted[0]][field_splitted[1]];
-
+            }
+            else if (field_splitted.length === 3) {
+                return actually_data[field_splitted[0]][field_splitted[1]][field_splitted[2]];
             }
         } catch (e) {
             return null;
@@ -100,7 +102,7 @@ function render_result_item(hit, settings_config) {
     result_card_data[settings_config.subheading_field] = get_data(settings_config.subheading_field);
     result_card_data[settings_config.summary_field] = get_data(settings_config.summary_field);
     result_card_data["id"] = hit._id;
-    var result_card_html = "<div class='result-item' id='"+ hit._id+"'>" +
+    var result_card_html = "<div class='result-item' id='" + hit._id + "'>" +
         "<h3 class='mb-1'><a>" + result_card_data[settings_config.heading_field] + "</a></h3>";
 
     if (result_card_data[settings_config.subheading_field]) {
