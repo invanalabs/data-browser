@@ -197,23 +197,33 @@ function perform_search(query) {
 $(document).ready(function () {
 
     var settings_config = get_settings_config();
-
+    $('body').show();
     if (settings_config) {
-        $("#resultVersionPage").show();
-        $("#noSettingsVersionPage").hide();
-
-
         var url = new URL(location.href);
-        perform_search(url.searchParams.get("q"), 1);
-        $("#search-form").submit(function (e) {
-            // e.preventDefault();
-            // search(document.getElementById("search-keyword").value, 1);
-        });
+        var query = url.searchParams.get("q");
+
+        if (query) {
+            $("#resultVersionPage").show();
+            $("#noSettingsVersionPage").hide();
+            $("#landingVersionPage").hide();
+
+            perform_search(query, 1);
+
+        } else {
+            $("#noSettingsVersionPage").hide();
+            $("#resultVersionPage").hide();
+            $("#landingVersionPage").show();
+        }
+        // $("#search-form").submit(function (e) {
+        // e.preventDefault();
+        // search(document.getElementById("search-keyword").value, 1);
+        // });
 
 
     } else {
         $("#noSettingsVersionPage").show();
         $("#resultVersionPage").hide();
+        $("#landingVersionPage").hide();
 
     }
 

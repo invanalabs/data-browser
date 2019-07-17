@@ -26,6 +26,9 @@ body, .form-control, button {
     font-size: 13px !important;
     line-height: 20.02px;
 }
+body{
+    display: none;
+}
 
 .result-item {
 margin-bottom: 0;
@@ -43,7 +46,7 @@ a {
     color: #328039 !important;
 }
 
-#resultVersionPage {
+#resultVersionPage, #landingVersionPage {
     display: none;
 }
 
@@ -51,7 +54,7 @@ a {
     font-size: 3rem !important;
 }
 
-#noSettingsVersionPage h1 {
+#noSettingsVersionPage h1, #landingVersionPage h1 {
     margin-top: 10rem !important;
 }
 
