@@ -2,9 +2,10 @@
 
 A simple search engine to browse the data that is crawled.
 
+This can be accessed at [https://invanalabs.github.io/search-engine/index.html](https://invanalabs.github.io/search-engine/index.html)
 
 
-## Enabling CORS 
+### Enabling CORS on Elasticsearch Node
 
 For local installation, update the configuration in `/usr/local/etc/elasticsearch/elasticsearch.yml`. 
 Add the configuration 

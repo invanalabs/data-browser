@@ -2,19 +2,33 @@ h1 {
     font-size: 20px;
     font-weight: bold !important;
 }
+
 h2 {
     font-size: 20px;
 }
+
 h3 {
     font-size: 14px;
 }
-body, .form-control, button{
+
+h3 a {
+    color: #328039 !important;
+
+}
+
+body, .form-control, button {
     font-size: 13px !important;
 }
 
-.result-item{
+.result-item {
     margin-bottom: 15px;
+    cursor: pointer;
 }
-.result-item h3{
+
+.result-item h3 {
     margin-bottom: 0;
+}
+
+a {
+    color: #666666 !important;
 }

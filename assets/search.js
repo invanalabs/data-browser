@@ -1,3 +1,9 @@
+function show_single_data(data) {
+    console.log("data", data);
+    $("#HitDetail").html("<pre>" + JSON.stringify(data, null, 2) + "</pre>")
+
+};
+
 function render_result_item(hit, settings_config) {
 
     var actually_data = hit._source;
@@ -17,9 +23,19 @@ function render_result_item(hit, settings_config) {
     show_fields_data["id"] = hit._id;
     console.log("show_fields_data", show_fields_data);
     return "<div class='result-item'>" +
-        "<h3>" + show_fields_data[show_fields[0]] + "</h3>" +
+        "<h3><a>" + show_fields_data[show_fields[0]] + "</a></h3>" +
         "<p>" + show_fields_data[show_fields[1]] + "</p>" +
         "</div>";
+
+}
+
+function render_shards_stats(shards_stats) {
+    $("#shardsStats").html("<ul class='list-unstyled'>" +
+        "<li >Total Shards : "+shards_stats.total+"</li>" +
+        "<li>Successful Shards : "+shards_stats.successful+"</li>" +
+        "<li>Skipped Shards : "+shards_stats.skipped+"</li>" +
+        "<li>Failed Shards : "+shards_stats.failed+"</li>" +
+        "</ul>");
 
 }
 
@@ -29,20 +45,26 @@ function render_result(result, keyword, search_url, settings_config) {
     var data = {
         hits: result.hits.hits,
         total: result.hits.total,
-        time_taken: result.took / 1000 + " seconds"
+        time_taken: result.took / 1000 + " seconds",
+        shards: result._shards
     };
     console.log(data);
     document.getElementById("resultStats").innerText = "About " + data.total + " results(" + data.time_taken + ")";
 
 
-    var result_html = "";
+    var result_html = [];
     data.hits.forEach(function (hit) {
-        result_html += render_result_item(hit, settings_config);
+        var el = $(render_result_item(hit, settings_config));
+        el.click(function () {
+            show_single_data(hit);
+        });
+        result_html.push(el);
     })
 
     console.log("result_html", result_html);
-    document.getElementById("resultHits").innerHTML = result_html;
-
+    // document.getElementById("").html = result_html;
+    $("#resultHits").html(result_html)
+    render_shards_stats(data.shards);
 };
 
 function search(keyword) {
@@ -54,7 +76,7 @@ function search(keyword) {
 
     var search_suffixes = "";
     if (keyword) {
-        search_suffixes = "&" + settings_config.search_fields + ":" + keyword;
+        search_suffixes = "&q=" + settings_config.search_fields + ":" + keyword;
     }
     var search_url = settings_config.search_url_base + search_suffixes + "&size=" + settings_config.result_size;
     console.log("search_url", search_url);
