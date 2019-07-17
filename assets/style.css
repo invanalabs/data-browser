@@ -30,5 +30,17 @@ body, .form-control, button {
 }
 
 a {
-    color: #666666 !important;
+    color: #328039 !important;
+}
+#resultVersionPage{
+    display: none;
+}
+.big-heading{
+    font-size: 3rem !important;
+}
+#noSettingsVersionPage h1{
+    margin-top: 10rem !important;
+}
+#noSettingsVersionPage a{
+    text-decoration: underline;
 }

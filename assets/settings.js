@@ -1,10 +1,12 @@
 function populate_settings_data() {
     var data = localStorage.getItem('invana_search_settings');
-    data = JSON.parse(data);
-    document.getElementById("search_url_base").value = data.search_url_base || null;
-    document.getElementById("search_fields").value = data.search_fields || null;
-    document.getElementById("show_fields").value = data.show_fields || null;
-    document.getElementById("result_size").value = data.result_size || 10;
+    if (data) {
+        data = JSON.parse(data);
+        document.getElementById("search_url_base").value = data.search_url_base || null;
+        document.getElementById("search_fields").value = data.search_fields || null;
+        document.getElementById("show_fields").value = data.show_fields || null;
+        document.getElementById("result_size").value = data.result_size || 10;
+    }
 
 }
 

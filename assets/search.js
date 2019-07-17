@@ -1,3 +1,8 @@
+function get_settings_config() {
+    var settings_config = localStorage.getItem('invana_search_settings');
+    return JSON.parse(settings_config);
+}
+
 function show_single_data(data) {
     console.log("data", data);
     $("#HitDetail").html("<pre>" + JSON.stringify(data, null, 2) + "</pre>")
@@ -31,10 +36,10 @@ function render_result_item(hit, settings_config) {
 
 function render_shards_stats(shards_stats) {
     $("#shardsStats").html("<ul class='list-unstyled'>" +
-        "<li >Total Shards : "+shards_stats.total+"</li>" +
-        "<li>Successful Shards : "+shards_stats.successful+"</li>" +
-        "<li>Skipped Shards : "+shards_stats.skipped+"</li>" +
-        "<li>Failed Shards : "+shards_stats.failed+"</li>" +
+        "<li >Total Shards : " + shards_stats.total + "</li>" +
+        "<li>Successful Shards : " + shards_stats.successful + "</li>" +
+        "<li>Skipped Shards : " + shards_stats.skipped + "</li>" +
+        "<li>Failed Shards : " + shards_stats.failed + "</li>" +
         "</ul>");
 
 }
@@ -68,8 +73,7 @@ function render_result(result, keyword, search_url, settings_config) {
 };
 
 function search(keyword) {
-    var settings_config = localStorage.getItem('invana_search_settings');
-    settings_config = JSON.parse(settings_config);
+    var settings_config = get_settings_config()
     console.log(settings_config, typeof settings_config);
     console.log(settings_config.search_url_base);
     console.log(settings_config['search_url_base']);
@@ -95,19 +99,30 @@ function search(keyword) {
 
 $(document).ready(function () {
 
+    var settings_config = get_settings_config();
+    console.log("settings_config", settings_config);
 
-    $("#search-form").submit(function (e) {
-        e.preventDefault();
-        search(document.getElementById("search-keyword").value);
-    });
+    if (settings_config) {
+        $("#resultVersionPage").show();
+        $("#noSettingsVersionPage").hide();
+
+        search(); // default null search to show the data we have in the system.
+        $("#search-form").submit(function (e) {
+            e.preventDefault();
+            search(document.getElementById("search-keyword").value);
+        });
+
+
+    } else {
+        $("#noSettingsVersionPage").show();
+        $("#resultVersionPage").hide();
+
+    }
 
 
     // $("search-keyword").change(function () {
     //     alert("The text has been changed.");
     // });
-
-
-    search()
 
 
 });

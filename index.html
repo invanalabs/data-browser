@@ -12,7 +12,7 @@
     <title>Invana Search Engine</title>
 </head>
 <body>
-<div class="container-fluid pt-3">
+<div class="container-fluid pt-3" id="resultVersionPage">
     <div class="row">
         <div class="col-md-2 pt-1">
             <h1>Invana Search</h1>
@@ -38,12 +38,8 @@
                 <div class="col-md-10"><p id="resultStats" class="small text-muted"></p></div>
                 <div class="col-md-2"><a href="settings.html" class="small"> <i class="fas fa-tools"></i> settings</a></div>
             </div>
-
-            
             <div id="resultHits">
-
             </div>
-            
         </div>
         <div class="col-md-4 pt-1">
 
@@ -52,6 +48,17 @@
             </div>
 
         </div>
+    </div>
+</div>
+<div class="container-fluid pt-3" id="noSettingsVersionPage">
+    <div class="row">
+        <div class="col-md-12  ml-md-auto text-center pt-1">
+            <h1 class="big-heading"><i class="fas fa-search"></i> Invana Search</h1>
+            <br>
+            <p><i class="fas fa-exclamation-triangle"></i> Settings for the data source is not defined,
+                please go to <a href="settings.html">settings page</a> and update the settings.</p>
+        </div>
+
     </div>
 </div>
 <input type="hidden" id="page-id" value="search">
