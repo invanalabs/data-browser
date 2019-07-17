@@ -1,10 +1,74 @@
+function render_pagination(page, totalPages) {
+
+    var $pagination = $("#pagination");
+    $pagination.html("");
+
+    if (totalPages > 1) {
+
+        var SHOW_MAX_PAGES = 5;
+        var $pagination_elems = $('<ul class="pagination"></ul>');
+
+
+        var minPage = 1;
+        var maxPage = 8;
+
+        if (totalPages >= SHOW_MAX_PAGES) {
+            // calc what page numbers to show.
+            var x = totalPages - page;
+
+            if (x >= SHOW_MAX_PAGES) {
+                minPage = page;
+                maxPage = page + SHOW_MAX_PAGES;
+            } else {
+                pages_to_right_count = totalPages - page;
+                pages_to_left_count = SHOW_MAX_PAGES - pages_to_right_count;
+                minPage = page - pages_to_left_count;
+                maxPage = page + pages_to_right_count;
+            }
+        } else {
+            // show all the pages
+            var pages_to_right_count = totalPages - page;
+            var pages_to_left_count = SHOW_MAX_PAGES - pages_to_right_count;
+            minPage = page - pages_to_left_count;
+            maxPage = page + pages_to_right_count;
+        }
+        if (minPage <= 0) {
+            minPage = 1;
+        }
+
+        if (page > 0) {
+            if ((page - 1) >= 1 && totalPages >= SHOW_MAX_PAGES) {
+                $pagination_elems.append('<li class="page-item next "><a href="#" data-page="1" class="page-link"><span class=" fa fa-angle-double-left"></span></a></li>');
+                $pagination_elems.append('<li class="page-item next"><a href="#" data-page="' + (page - 1) + '" class="page-link"><span class="fa fa-angle-left"></span></a></li>');
+            }
+            for (i = minPage; i <= maxPage; i++) {
+                if (i === page) {
+                    active = "active"
+                } else {
+                    active = "";
+                }
+                $pagination_elems.append('<li class="page-item ' + active + '"><a href="#" data-page="' + i + '" class="page-link">' + i + '</a></li>');
+            }
+            if (maxPage !== totalPages && totalPages >= SHOW_MAX_PAGES) {
+                $pagination_elems.append('<li class="page-item next"><a href="#" data-page="' + (page + 1) + '" class="page-link"><span class=" fa fa-angle-right "></span></a></li>');
+                $pagination_elems.append('<li class="page-item next "><a href="#" data-page="' + totalPages + '" class="page-link"><span class=" fa fa-angle-double-right"></span></a></li>');
+            }
+        }
+        $pagination.append($pagination_elems);
+        $('.page-link').click(function () {
+            var page_num = $(this).attr('data-page');
+            console.log("pagination button clicked", page_num);
+            search(document.getElementById("search-keyword").value, parseInt(page_num));
+        });
+    }
+}
+
 function get_settings_config() {
     var settings_config = localStorage.getItem('invana_search_settings');
     return JSON.parse(settings_config);
 }
 
 function show_single_data(data) {
-    console.log("data", data);
     $("#HitDetail").html("<pre>" + JSON.stringify(data, null, 2) + "</pre>")
 
 };
@@ -13,7 +77,6 @@ function render_result_item(hit, settings_config) {
 
     var actually_data = hit._source;
     var show_fields = settings_config.show_fields.split(",");
-    console.log("show_fields", show_fields);
     var show_fields_data = {};
     show_fields.forEach(function (field) {
         var field_splitted = field.split(".");
@@ -26,7 +89,6 @@ function render_result_item(hit, settings_config) {
         }
     });
     show_fields_data["id"] = hit._id;
-    console.log("show_fields_data", show_fields_data);
     return "<div class='result-item'>" +
         "<h3><a>" + show_fields_data[show_fields[0]] + "</a></h3>" +
         "<p>" + show_fields_data[show_fields[1]] + "</p>" +
@@ -44,7 +106,7 @@ function render_shards_stats(shards_stats) {
 
 }
 
-function render_result(result, keyword, search_url, settings_config) {
+function render_result(result, keyword, search_url, settings_config, page_num) {
 
 
     var data = {
@@ -53,8 +115,12 @@ function render_result(result, keyword, search_url, settings_config) {
         time_taken: result.took / 1000 + " seconds",
         shards: result._shards
     };
-    console.log(data);
-    document.getElementById("resultStats").innerText = "About " + data.total + " results(" + data.time_taken + ")";
+
+    if (page_num === 1) {
+        document.getElementById("resultStats").innerText = "About " + data.total + " results(" + data.time_taken + ")";
+    } else {
+        document.getElementById("resultStats").innerText = "Page " + page_num + " of about " + data.total + " results(" + data.time_taken + ")";
+    }
 
 
     var result_html = [];
@@ -64,25 +130,23 @@ function render_result(result, keyword, search_url, settings_config) {
             show_single_data(hit);
         });
         result_html.push(el);
-    })
+    });
 
-    console.log("result_html", result_html);
-    // document.getElementById("").html = result_html;
     $("#resultHits").html(result_html)
+    var totalPages = Math.ceil(result.hits.total / settings_config.result_size);
+    render_pagination(page_num, totalPages);
     render_shards_stats(data.shards);
 };
 
-function search(keyword) {
-    var settings_config = get_settings_config()
-    console.log(settings_config, typeof settings_config);
-    console.log(settings_config.search_url_base);
-    console.log(settings_config['search_url_base']);
+function search(keyword, page_num) {
+    var settings_config = get_settings_config();
 
     var search_suffixes = "";
     if (keyword) {
         search_suffixes = "&q=" + settings_config.search_fields + ":" + keyword;
     }
-    var search_url = settings_config.search_url_base + search_suffixes + "&size=" + settings_config.result_size;
+    var search_url = settings_config.search_url_base + search_suffixes + "&size=" +
+        settings_config.result_size + "&from=" + (page_num - 1) * settings_config.result_size;
     console.log("search_url", search_url);
 
     $.ajax({
@@ -91,7 +155,7 @@ function search(keyword) {
         dataType: 'json', // added data type
         success: function (result) {
             console.log(result);
-            render_result(result, keyword, search_url, settings_config)
+            render_result(result, keyword, search_url, settings_config, page_num)
         }
     });
 }
@@ -100,16 +164,15 @@ function search(keyword) {
 $(document).ready(function () {
 
     var settings_config = get_settings_config();
-    console.log("settings_config", settings_config);
 
     if (settings_config) {
         $("#resultVersionPage").show();
         $("#noSettingsVersionPage").hide();
 
-        search(); // default null search to show the data we have in the system.
+        search(null, 1); // default null search to show the data we have in the system.
         $("#search-form").submit(function (e) {
             e.preventDefault();
-            search(document.getElementById("search-keyword").value);
+            search(document.getElementById("search-keyword").value, 1);
         });
 
 

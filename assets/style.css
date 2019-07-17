@@ -44,3 +44,9 @@ a {
 #noSettingsVersionPage a{
     text-decoration: underline;
 }
+.page-item.active .page-link {
+    z-index: 1;
+    color: #fff !important;
+    background-color: #328039;
+    border-color: #328039;
+}
