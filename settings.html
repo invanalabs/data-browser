@@ -22,7 +22,7 @@
             <hr>
 
 
-            <form  id="search-settings-form">
+            <form id="search-settings-form">
                 <div class="form-group">
                     <label for="search_url_base">Elasticsearch URL</label>
                     <input type="text" class="form-control" id="search_url_base">
@@ -44,18 +44,36 @@
                         Example: blog_detail.title, title
                     </small>
                 </div>
-                <div class="form-group">
-                    <label for="show_fields">Fields to show</label>
-                    <input type="text" class="form-control" id="show_fields">
-                    <small id="show_fields_help" class="form-text text-muted">
-                        Example: blog_detail.title, url; first would be the main text to show, second one would be unique identifier
-                    </small>
+
+                <div class="row">
+
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="heading_field"> Result Card Heading Field</label>
+                            <input type="text" class="form-control" id="heading_field">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="subheading_field"> Result Card Sub-Heading Field</label>
+                            <input type="text" class="form-control" id="subheading_field">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="summary_field"> Result Card Summary Field</label>
+                            <input type="text" class="form-control" id="summary_field">
+                        </div>
+                    </div>
                 </div>
+
+
+
                 <div class="form-group">
                     <label for="result_size">Number of results to show in a page</label>
                     <input type="text" class="form-control" id="result_size">
                     <!--<small id="pagination_field_help" class="form-text text-muted">-->
-                        <!--Defaults to 20-->
+                    <!--Defaults to 20-->
                     <!--</small>-->
                 </div>
 

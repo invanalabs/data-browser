@@ -11,8 +11,14 @@ h3 {
     font-size: 14px;
 }
 
-h3 a {
+h4 {
+    font-size: 13px;
+    font-weight: normal;
     color: #328039 !important;
+}
+
+h3 a {
+    color: #323780 !important
 
 }
 
@@ -35,18 +41,23 @@ body, .form-control, button {
 a {
     color: #328039 !important;
 }
-#resultVersionPage{
+
+#resultVersionPage {
     display: none;
 }
-.big-heading{
+
+.big-heading {
     font-size: 3rem !important;
 }
-#noSettingsVersionPage h1{
+
+#noSettingsVersionPage h1 {
     margin-top: 10rem !important;
 }
-#noSettingsVersionPage a{
+
+#noSettingsVersionPage a {
     text-decoration: underline;
 }
+
 .page-item.active .page-link {
     z-index: 1;
     color: #fff !important;

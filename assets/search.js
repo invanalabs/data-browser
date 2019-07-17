@@ -74,27 +74,44 @@ function show_single_data(data) {
 };
 
 function render_result_item(hit, settings_config) {
+    // show_fields
+
+
+    function get_data(field) {
+        try {
+            var field_splitted = field.split(".");
+            if (field_splitted.length === 1) {
+                return actually_data[field];
+            } else if (field_splitted.length === 2) {
+                return actually_data[field_splitted[0]][field_splitted[1]];
+
+            }
+        } catch (e) {
+            return null;
+        }
+    }
 
     var actually_data = hit._source;
-    var show_fields = settings_config.show_fields.split(",");
-    var show_fields_data = {};
-    show_fields.forEach(function (field) {
-        var field_splitted = field.split(".");
-        if (field_splitted.length === 1) {
-            show_fields_data[field] = actually_data[field];
+    var result_card_data = {};
+    result_card_data[settings_config.heading_field] = get_data(settings_config.heading_field);
+    result_card_data[settings_config.subheading_field] = get_data(settings_config.subheading_field);
+    result_card_data[settings_config.summary_field] = get_data(settings_config.summary_field);
+    result_card_data["id"] = hit._id;
+    var result_card_html = "<div class='result-item'>" +
+        "<h3 class='mb-1'><a>" + result_card_data[settings_config.heading_field] + "</a></h3>";
 
-        } else if (field_splitted.length === 2) {
-            show_fields_data[field] = actually_data[field_splitted[0]][field_splitted[1]];
+    if (result_card_data[settings_config.subheading_field]) {
+        result_card_html += "<h4 class='mb-1'>" + result_card_data[settings_config.subheading_field] + "</h4>";
 
-        }
-    });
-    show_fields_data["id"] = hit._id;
-    return "<div class='result-item'>" +
-        "<h3><a>" + show_fields_data[show_fields[0]] + "</a></h3>" +
-        "<p class='mb-0'>" + show_fields_data[show_fields[1]] + "</p>" +
-        "<p class='text-muted small'> score: " + hit._score + "; doc type:" + hit._type + ";  index: " + hit._index + "</p>" +
+    }
+    if (result_card_data[settings_config.summary_field]) {
+        result_card_html += "<p class='mb-0'>" + result_card_data[settings_config.summary_field] + "</p>";
+
+    }
+    result_card_html += "<p class='text-muted small'> score: " + hit._score + "; doc type:" + hit._type + ";  index: " + hit._index + "</p>" +
         // "<p class='text-muted small'> record id: "+ hit._id+"</p>" +
         "</div>";
+    return result_card_html;
 
 }
 
