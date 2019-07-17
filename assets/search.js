@@ -91,7 +91,9 @@ function render_result_item(hit, settings_config) {
     show_fields_data["id"] = hit._id;
     return "<div class='result-item'>" +
         "<h3><a>" + show_fields_data[show_fields[0]] + "</a></h3>" +
-        "<p>" + show_fields_data[show_fields[1]] + "</p>" +
+        "<p class='mb-0'>" + show_fields_data[show_fields[1]] + "</p>" +
+        "<p class='text-muted small'> score: " + hit._score + "; doc type:" + hit._type + ";  index: " + hit._index + "</p>" +
+        // "<p class='text-muted small'> record id: "+ hit._id+"</p>" +
         "</div>";
 
 }
@@ -145,7 +147,8 @@ function search(keyword, page_num) {
     if (keyword) {
         search_suffixes = "&q=" + settings_config.search_fields + ":" + keyword;
     }
-    var search_url = settings_config.search_url_base + search_suffixes + "&size=" +
+    var search_url = settings_config.search_url_base + "?" + settings_config.default_filters + "&"
+        + search_suffixes + "&size=" +
         settings_config.result_size + "&from=" + (page_num - 1) * settings_config.result_size;
     console.log("search_url", search_url);
 
