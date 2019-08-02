@@ -42,6 +42,7 @@ function update_settings() {
         "result_size": document.getElementById("result_size").value,
     };
     localStorage.setItem('invana_search_settings', JSON.stringify(data));
+    location.href = "./index.html";
 }
 
 function get_settings() {
