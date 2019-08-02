@@ -1,3 +1,9 @@
+function get_url_param(param) {
+    var u = new URL(location.href);
+    return u.searchParams.get(param);
+}
+
+
 function populate_settings_data() {
     var data = localStorage.getItem('invana_search_settings');
     if (data) {
@@ -10,8 +16,20 @@ function populate_settings_data() {
         document.getElementById("default_filters").value = data.default_filters || null;
         document.getElementById("result_size").value = data.result_size || 10;
     }
+}
+
+function setup_settings_data() {
+
+    document.getElementById("search_url_base").value = get_url_param("search_url_base") || null;
+    document.getElementById("search_fields").value = get_url_param("search_fields") || null;
+    document.getElementById("heading_field").value = get_url_param("heading_field") || null;
+    document.getElementById("subheading_field").value = get_url_param("subheading_field") || null;
+    document.getElementById("summary_field").value = get_url_param("summary_field") || null;
+    document.getElementById("default_filters").value = get_url_param("default_filters") || null;
+    document.getElementById("result_size").value = get_url_param("result_size") || 10;
 
 }
+
 
 function update_settings() {
     var data = {
@@ -26,11 +44,22 @@ function update_settings() {
     localStorage.setItem('invana_search_settings', JSON.stringify(data));
 }
 
+function get_settings() {
+
+    if (get_url_param("search_url_base")) {
+        setup_settings_data();
+    } else {
+        populate_settings_data();
+
+    }
+
+
+}
 
 $(document).ready(function () {
     $('body').show();
 
-    populate_settings_data();
+    get_settings();
     $("#search-settings-form").submit(function (e) {
         e.preventDefault();
         update_settings();
