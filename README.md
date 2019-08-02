@@ -8,9 +8,10 @@ This can be accessed at [https://invanalabs.github.io/data-browser/index.html](h
 
 ### Example setup
 
-```bash
+```
 https://invanalabs.github.io/data-browser/settings.html?search_url_base=https://search-test-es-server-ubrk5p4645nrfq235wuzi4g6ku.ap-south-1.es.amazonaws.com/blogs/github/_search&search_fields=title&heading_field=url&subheading_field=domain&summary_field=description&result_size=10
 
+# This url will setup the settings needed for browser.
 ```
 
 ### Enabling CORS on Elasticsearch Node
