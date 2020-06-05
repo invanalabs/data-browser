@@ -2,14 +2,14 @@
 
 A simple search engine to browse the data that is crawled.
 
-This can be accessed at [https://invanalabs.github.io/data-browser/index.html](https://invanalabs.github.io/data-browser/index.html)
+This can be accessed at [https://invanalabs.github.io/elasticsearch-explorer/index.html](https://invanalabs.github.io/data-browser/index.html)
 
 
 
 ### Example setup
 
 ```
-https://invanalabs.github.io/data-browser/settings.html?search_url_base=https://search-test-es-server-ubrk5p4645nrfq235wuzi4g6ku.ap-south-1.es.amazonaws.com/blogs/github/_search&search_fields=title&heading_field=url&subheading_field=domain&summary_field=description&result_size=10&default_filters=sort=date:desc
+https://invanalabs.github.io/elasticsearch-explorer/settings.html?search_url_base=https://search-test-es-server-ubrk5p4645nrfq235wuzi4g6ku.ap-south-1.es.amazonaws.com/blogs/github/_search&search_fields=title&heading_field=url&subheading_field=domain&summary_field=description&result_size=10&default_filters=sort=date:desc
 
 # This url will setup the settings needed for browser.
 ```
