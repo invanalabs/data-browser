@@ -2,7 +2,7 @@
 
 A simple search engine to browse the data that is crawled.
 
-This can be accessed at [https://invanalabs.github.io/elasticsearch-explorer/index.html](https://invanalabs.github.io/data-browser/index.html)
+This can be accessed at [https://invanalabs.github.io/elasticsearch-explorer/index.html](https://invanalabs.github.io/elasticsearch-explorer/index.html)
 
 
 
